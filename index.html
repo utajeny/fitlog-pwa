@@ -64,11 +64,18 @@
 
     <div id="workout" style="display:none;">
       <div class="card">
-        <strong>Drep</strong>
-        <input placeholder="kg" id="kg" />
-        <input placeholder="opak." id="reps" />
-        <button onclick="saveSet()">Uložiť sériu</button>
-      </div>
+  <select id="exercise">
+    <option>Drep</option>
+    <option>Bench press</option>
+    <option>Mŕtvy ťah</option>
+    <option>Military press</option>
+    <option>Príťahy v predklone</option>
+  </select>
+
+  <input placeholder="kg" id="kg" />
+  <input placeholder="opak." id="reps" />
+  <button onclick="saveSet()">Uložiť sériu</button>
+</div>
 
       <div id="log"></div>
     </div>
@@ -109,3 +116,4 @@
   </script>
 </body>
 </html>
+
