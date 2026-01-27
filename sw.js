@@ -1,5 +1,5 @@
-const CACHE = "fitlog-v10";
-const ASSETS = ["./", "./index.html", "./manifest.webmanifest"];
+const CACHE = "fitlog-v11";
+const ASSETS = ["./", "./index.html", "./manifest.webmanifest", "./exercises.json"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)));
