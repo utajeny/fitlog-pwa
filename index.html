@@ -11,109 +11,385 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
   <style>
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #111;
-      color: #fff;
+    :root{
+      --bg:#111;
+      --panel:#1c1c1c;
+      --panel2:#262626;
+      --text:#fff;
+      --muted:#bdbdbd;
+      --accent:#1db954;
+      --input:#333;
+      --danger:#ff5a5f;
     }
-    header {
-      padding: 16px;
-      text-align: center;
-      font-weight: bold;
-      font-size: 20px;
-      background: #000;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
     }
-    main {
-      padding: 16px;
+    header{
+      padding:14px 16px;
+      text-align:center;
+      font-weight:800;
+      font-size:18px;
+      background:#000;
+      position:sticky;
+      top:0;
+      z-index:10;
     }
-    button {
-      width: 100%;
-      padding: 14px;
-      margin: 8px 0;
-      background: #1db954;
-      color: #000;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: bold;
+    main{padding:16px; max-width:900px; margin:0 auto;}
+    .btn{
+      width:100%;
+      padding:14px;
+      margin:8px 0;
+      background:var(--accent);
+      color:#000;
+      border:none;
+      border-radius:12px;
+      font-size:16px;
+      font-weight:800;
     }
-    .card {
-      background: #1c1c1c;
-      padding: 12px;
-      border-radius: 10px;
-      margin-bottom: 10px;
+    .btn.secondary{
+      background:transparent;
+      color:var(--text);
+      border:1px solid #3a3a3a;
+      font-weight:700;
     }
-    input {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      margin-top: 6px;
-      background: #333;
-      color: #fff;
+    .btn.danger{
+      background:var(--danger);
+      color:#000;
     }
+    .card{
+      background:var(--panel);
+      padding:12px;
+      border-radius:12px;
+      margin-bottom:10px;
+      border:1px solid #2b2b2b;
+    }
+    .row{display:flex; gap:10px; align-items:center;}
+    .row > *{flex:1}
+    input, select{
+      width:100%;
+      padding:12px 10px;
+      border-radius:10px;
+      border:none;
+      margin-top:8px;
+      background:var(--input);
+      color:var(--text);
+      outline:none;
+      font-size:16px;
+    }
+    input::placeholder{color:#9a9a9a}
+    .label{color:var(--muted); font-size:12px; margin-top:6px}
+    .titleRow{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-bottom:6px;
+    }
+    .pill{
+      font-size:12px;
+      background:var(--panel2);
+      border:1px solid #333;
+      padding:6px 10px;
+      border-radius:999px;
+      color:var(--muted);
+      white-space:nowrap;
+    }
+    .setsHeader{
+      display:flex; justify-content:space-between; align-items:center;
+      margin-top:8px;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .setLine{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      padding:10px;
+      border-radius:12px;
+      background:#141414;
+      border:1px solid #242424;
+      margin-top:8px;
+    }
+    .setMain{display:flex; flex-direction:column; gap:2px}
+    .setMain strong{font-size:14px}
+    .setMeta{color:var(--muted); font-size:12px}
+    .miniBtn{
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid #3a3a3a;
+      background:transparent;
+      color:var(--text);
+      font-weight:700;
+      min-width:90px;
+    }
+    .miniBtn.accent{
+      border-color:transparent;
+      background:var(--accent);
+      color:#000;
+    }
+    .grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+    .hidden{display:none !important;}
+    .small{font-size:12px; color:var(--muted)}
   </style>
 </head>
 
 <body>
-  <header>FitLog – tréningový denník</header>
+<header>FitLog – tréningový denník</header>
 
-  <main>
-    <button onclick="startWorkout()">Začať tréning</button>
+<main>
+  <button class="btn" id="startBtn" onclick="startWorkout()">Začať tréning</button>
 
-    <div id="workout" style="display:none;">
-      <div class="card">
-  <select id="exercise">
-    <option>Drep</option>
-    <option>Bench press</option>
-    <option>Mŕtvy ťah</option>
-    <option>Military press</option>
-    <option>Príťahy v predklone</option>
-  </select>
+  <div id="workout" class="hidden">
+    <div class="card">
+      <div class="titleRow">
+        <strong>Aktívny tréning</strong>
+        <span class="pill" id="countPill">0 sérií</span>
+      </div>
+      <div class="small">Vyber cvik, zadaj kg + opak., prípadne tempo. (RPE je voliteľné.)</div>
+    </div>
 
-  <input placeholder="kg" id="kg" />
-  <input placeholder="opak." id="reps" />
-  <button onclick="saveSet()">Uložiť sériu</button>
-</div>
+    <div class="card">
+      <div class="titleRow">
+        <strong>Pridať sériu</strong>
+        <span class="pill">Default tempo: 2-0-2</span>
+      </div>
 
+      <select id="exercise"></select>
+
+      <div class="grid2">
+        <div>
+          <div class="label">kg</div>
+          <input placeholder="napr. 100" id="kg" inputmode="decimal" />
+        </div>
+        <div>
+          <div class="label">opak.</div>
+          <input placeholder="napr. 5" id="reps" inputmode="numeric" />
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <div class="label">tempo (napr. 3-1-1)</div>
+          <input placeholder="2-0-2" id="tempo" />
+        </div>
+        <div>
+          <div class="label">RPE (voliteľné)</div>
+          <input placeholder="napr. 8.5" id="rpe" inputmode="decimal" />
+        </div>
+      </div>
+
+      <div class="grid2">
+        <button class="btn secondary" onclick="toggleWarmup()" id="wuBtn">Warm-up: OFF</button>
+        <button class="btn" onclick="saveSet()">Uložiť sériu</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="titleRow">
+        <strong>Log</strong>
+        <button class="miniBtn" onclick="clearLog()">Vymazať</button>
+      </div>
       <div id="log"></div>
     </div>
-  </main>
 
-  <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("sw.js");
+    <button class="btn danger" onclick="finishWorkout()">Ukončiť tréning</button>
+  </div>
+</main>
+
+<script>
+  // PWA offline
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js");
+  }
+
+  // --- Mini knižnica cvikov (zatím). Neskôr to rozšírime na stovky/800+ ---
+  const EXERCISES = [
+    { id: "squat", en: "Barbell Back Squat", sk: "Drep" },
+    { id: "bench", en: "Barbell Bench Press", sk: "Bench press" },
+    { id: "deadlift", en: "Barbell Deadlift", sk: "Mŕtvy ťah" },
+    { id: "ohp", en: "Overhead Press", sk: "Military press" },
+    { id: "row", en: "Barbell Row", sk: "Príťahy v predklone" },
+    { id: "pulldown", en: "Lat Pulldown", sk: "Sťahovanie kladky" },
+    { id: "curl", en: "Dumbbell Curl", sk: "Bicepsový zdvih" },
+    { id: "triceps", en: "Triceps Pushdown", sk: "Triceps na kladke" }
+  ];
+
+  // --- Stav ---
+  let workoutActive = false;
+  let warmup = false;
+  let log = []; // { exerciseId, exerciseLabel, kg, reps, tempo, rpe, warmup, ts }
+
+  // --- UI helpers ---
+  const $ = (id) => document.getElementById(id);
+
+  function setCountPill(){
+    $("countPill").innerText = `${log.length} sérií`;
+  }
+
+  function populateExercises(){
+    const sel = $("exercise");
+    sel.innerHTML = "";
+    EXERCISES.forEach(e => {
+      const opt = document.createElement("option");
+      opt.value = e.id;
+      opt.textContent = `${e.sk} — ${e.en}`;
+      sel.appendChild(opt);
+    });
+  }
+
+  function startWorkout() {
+    workoutActive = true;
+    $("workout").classList.remove("hidden");
+    $("startBtn").classList.add("hidden");
+    populateExercises();
+    setCountPill();
+  }
+
+  function toggleWarmup(){
+    warmup = !warmup;
+    $("wuBtn").textContent = warmup ? "Warm-up: ON" : "Warm-up: OFF";
+    $("wuBtn").classList.toggle("accent", warmup);
+  }
+
+  function saveSet() {
+    const exerciseId = $("exercise").value;
+    const exerciseLabel = $("exercise").selectedOptions[0]?.textContent || exerciseId;
+
+    const kgRaw = ($("kg").value || "").trim();
+    const repsRaw = ($("reps").value || "").trim();
+    const tempo = ($("tempo").value || "2-0-2").trim();
+    const rpeRaw = ($("rpe").value || "").trim();
+
+    if (!kgRaw || !repsRaw) {
+      alert("Zadaj kg aj opakovania.");
+      return;
     }
 
-    let log = [];
+    const kg = Number(kgRaw.replace(",", "."));
+    const reps = Number(repsRaw);
+    const rpe = rpeRaw ? Number(rpeRaw.replace(",", ".")) : null;
 
-    function startWorkout() {
-      document.getElementById("workout").style.display = "block";
+    if (!Number.isFinite(kg) || kg < 0) { alert("Zlé kg"); return; }
+    if (!Number.isFinite(reps) || reps <= 0) { alert("Zlé opakovania"); return; }
+    if (rpe !== null && (!Number.isFinite(rpe) || rpe < 0 || rpe > 10)) { alert("RPE 0–10"); return; }
+
+    log.push({
+      exerciseId,
+      exerciseLabel,
+      kg,
+      reps,
+      tempo,
+      rpe,
+      warmup,
+      ts: new Date().toISOString()
+    });
+
+    // uloženie lokálne (iPhone)
+    localStorage.setItem("fitlog_active", JSON.stringify({ workoutActive, warmup, log }));
+
+    // reset polia (nech sa loguje rýchlo)
+    $("reps").value = "";
+    $("rpe").value = "";
+    render();
+  }
+
+  function render() {
+    const div = $("log");
+    div.innerHTML = "";
+
+    if (log.length === 0) {
+      div.innerHTML = `<div class="small">Zatiaľ žiadne série.</div>`;
+      setCountPill();
+      return;
     }
 
-    function saveSet() {
-      const kg = document.getElementById("kg").value;
-      const reps = document.getElementById("reps").value;
-      log.push({ kg, reps });
-      localStorage.setItem("log", JSON.stringify(log));
-      render();
+    // posledné hore
+    [...log].slice().reverse().forEach((s, idx) => {
+      const isWU = s.warmup ? " • WU" : "";
+      const rpeTxt = (s.rpe !== null) ? ` • RPE ${s.rpe}` : "";
+      div.innerHTML += `
+        <div class="setLine">
+          <div class="setMain">
+            <strong>${s.exerciseLabel}</strong>
+            <div class="setMeta">${s.kg} kg × ${s.reps} • tempo ${s.tempo}${rpeTxt}${isWU}</div>
+          </div>
+          <button class="miniBtn" onclick="deleteSet(${log.length - 1 - idx})">Zmazať</button>
+        </div>
+      `;
+    });
+
+    setCountPill();
+  }
+
+  function deleteSet(index){
+    log.splice(index, 1);
+    localStorage.setItem("fitlog_active", JSON.stringify({ workoutActive, warmup, log }));
+    render();
+  }
+
+  function clearLog(){
+    if (!confirm("Vymazať všetky série?")) return;
+    log = [];
+    localStorage.setItem("fitlog_active", JSON.stringify({ workoutActive, warmup, log }));
+    render();
+  }
+
+  function finishWorkout(){
+    if (log.length === 0) {
+      alert("Najprv ulož aspoň jednu sériu.");
+      return;
     }
 
-    function render() {
-      const div = document.getElementById("log");
-      div.innerHTML = "";
-      log.forEach((s, i) => {
-        div.innerHTML += `<div class="card">Séria ${i+1}: ${s.kg} kg × ${s.reps}</div>`;
-      });
-    }
+    // uložíme tréning do histórie (jednoduché)
+    const history = JSON.parse(localStorage.getItem("fitlog_history") || "[]");
+    history.unshift({
+      id: crypto?.randomUUID?.() || String(Date.now()),
+      finishedAt: new Date().toISOString(),
+      sets: log
+    });
+    localStorage.setItem("fitlog_history", JSON.stringify(history));
 
-    const saved = localStorage.getItem("log");
-    if (saved) {
-      log = JSON.parse(saved);
-      render();
-    }
-  </script>
+    // vyčisti aktívny tréning
+    workoutActive = false;
+    warmup = false;
+    log = [];
+    localStorage.removeItem("fitlog_active");
+
+    // UI reset
+    $("workout").classList.add("hidden");
+    $("startBtn").classList.remove("hidden");
+    $("kg").value = "";
+    $("reps").value = "";
+    $("tempo").value = "";
+    $("rpe").value = "";
+    $("wuBtn").textContent = "Warm-up: OFF";
+
+    alert("Tréning uložený do histórie (lokálne).");
+  }
+
+  // obnov po refresh (keď sa appka zavrie/otvorí)
+  (function restore(){
+    const saved = localStorage.getItem("fitlog_active");
+    if (!saved) return;
+    try{
+      const s = JSON.parse(saved);
+      workoutActive = !!s.workoutActive;
+      warmup = !!s.warmup;
+      log = Array.isArray(s.log) ? s.log : [];
+      if (workoutActive) {
+        $("workout").classList.remove("hidden");
+        $("startBtn").classList.add("hidden");
+        populateExercises();
+        $("wuBtn").textContent = warmup ? "Warm-up: ON" : "Warm-up: OFF";
+        render();
+      }
+    } catch(e){}
+  })();
+</script>
 </body>
 </html>
-
