@@ -1,0 +1,8 @@
+[
+  { "id": "squat", "label": "Drep — Barbell Back Squat" },
+  { "id": "bench", "label": "Bench press — Barbell Bench Press" },
+  { "id": "deadlift", "label": "Mŕtvy ťah — Barbell Deadlift" },
+  { "id": "ohp", "label": "Military press — Overhead Press" },
+  { "id": "row", "label": "Príťahy v predklone — Barbell Row" },
+  { "id": "pulldown", "label": "Sťahovanie kladky — Lat Pulldown" }
+]
