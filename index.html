@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitLog</title>
+
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#111111" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #111;
+      color: #fff;
+    }
+    header {
+      padding: 16px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 20px;
+      background: #000;
+    }
+    main {
+      padding: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      margin: 8px 0;
+      background: #1db954;
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .card {
+      background: #1c1c1c;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      margin-top: 6px;
+      background: #333;
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <header>FitLog – tréningový denník</header>
+
+  <main>
+    <button onclick="startWorkout()">Začať tréning</button>
+
+    <div id="workout" style="display:none;">
+      <div class="card">
+        <strong>Drep</strong>
+        <input placeholder="kg" id="kg" />
+        <input placeholder="opak." id="reps" />
+        <button onclick="saveSet()">Uložiť sériu</button>
+      </div>
+
+      <div id="log"></div>
+    </div>
+  </main>
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js");
+    }
+
+    let log = [];
+
+    function startWorkout() {
+      document.getElementById("workout").style.display = "block";
+    }
+
+    function saveSet() {
+      const kg = document.getElementById("kg").value;
+      const reps = document.getElementById("reps").value;
+      log.push({ kg, reps });
+      localStorage.setItem("log", JSON.stringify(log));
+      render();
+    }
+
+    function render() {
+      const div = document.getElementById("log");
+      div.innerHTML = "";
+      log.forEach((s, i) => {
+        div.innerHTML += `<div class="card">Séria ${i+1}: ${s.kg} kg × ${s.reps}</div>`;
+      });
+    }
+
+    const saved = localStorage.getItem("log");
+    if (saved) {
+      log = JSON.parse(saved);
+      render();
+    }
+  </script>
+</body>
+</html>
