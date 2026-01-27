@@ -1,4 +1,4 @@
-const CACHE = "fitlog-v2";
+const CACHE = "fitlog-v3";
 const ASSETS = ["./", "./index.html", "./manifest.webmanifest"];
 
 self.addEventListener("install", (e) => {
@@ -20,3 +20,4 @@ self.addEventListener("fetch", (e) => {
     caches.match(e.request).then((cached) => cached || fetch(e.request))
   );
 });
+
