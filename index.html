@@ -503,7 +503,7 @@
     if (!Number.isFinite(reps) || reps <= 0) return alert("Zlé opakovania");
     if (rpe !== null && (!Number.isFinite(rpe) || rpe < 0 || rpe > 10)) return alert("RPE 0–10");
 
-    active\.sets\.push\(\{ exId, exLabel, kg, reps, rpe, warmup, ts: new Date\(\)\.toISOString\(\) \}\);
+    active.sets.push({ exId, exLabel, kg, reps, rpe, warmup, ts: new Date().toISOString() });
 
     // ak ešte nemáš plán cvikov, buduj ho automaticky podľa uložených sérií
     active.planExercises = Array.isArray(active.planExercises) ? active.planExercises : [];
@@ -1268,5 +1268,3 @@
 </script>
 </body>
 </html>
-
-
