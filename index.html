@@ -296,21 +296,20 @@
 </main>
 
 <script>
-// 🔄 AUTO RELOAD PO UPDATE SERVICE WORKERA
+  // 🔄 AUTO RELOAD PO UPDATE SERVICE WORKERA
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.addEventListener("controllerchange", () => {
       window.location.reload();
     });
   }
 
-  // 📦 REGISTRÁCIA SERVICE WORKERA
-  if ("serviceWorker" in navigator") {
+  // 📦 REGISTRÁCIA SERVICE WORKERA (FIX)
+  if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js");
   }
 
   const $ = (id) => document.getElementById(id);
   const APP_VERSION = "1.0.3";
-
 
   // 🔁 FALLBACK CVIKY (len keď by nešiel exercises.json)
   const BASE_EXERCISES = [
@@ -329,7 +328,7 @@
   let warmup = false;
   let useRPE = false;
   let active = { date: todayISO(), note: "", sets: [] };
-  let exercises = [];              // dôležité: NEVOLÁME loadExercises() tu
+  let exercises = [];
   let plan = loadPlan();
   let history = loadHistory();
   let weekAnchor = loadWeekAnchor();
@@ -534,7 +533,6 @@
     try { global = await syncFromGitHubExercises(); }
     catch { global = loadGlobalCached(); }
 
-    // fallback ak nemáme nič ani v cache
     if (!Array.isArray(global) || global.length === 0) global = BASE_EXERCISES;
 
     const custom = loadExercisesLocal();
@@ -550,7 +548,18 @@
   async function populateExercises(){
     const sel = $("exercise");
     sel.innerHTML = "";
-    exercises = await loadExercises();
+
+    try {
+      exercises = await loadExercises();
+    } catch (e) {
+      console.error(e);
+      exercises = BASE_EXERCISES;
+    }
+
+    if (!Array.isArray(exercises) || exercises.length === 0) {
+      exercises = BASE_EXERCISES;
+    }
+
     exercises.forEach(e => {
       const opt = document.createElement("option");
       opt.value = e.id;
@@ -583,7 +592,7 @@
     if (!box || !box.value) return alert("Najprv pridaj cvik.");
     box.select();
     document.execCommand("copy");
-    alert("Export skopírovaný.");
+    alert("Export skopívaný.");
   }
 
   // --- Calendar plan ---
@@ -841,6 +850,7 @@
 </script>
 </body>
 </html>
+
 
 
 
