@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v1.2.0";
+const CACHE_VERSION = "v1.2.1";
 const CACHE_NAME = `fitlog-${CACHE_VERSION}`;
 
 // Cacheuj len statické súbory. exercises.json nech je vždy LIVE.
@@ -7,6 +7,10 @@ const STATIC_FILES = [
   "./index.html",
   "./manifest.webmanifest",
   "./sw.js",
+  "./icon-192.png",
+  "./icon-512.png",
+  "./icon-1024.png",
+  "./apple-touch-icon.png",
 ];
 
 self.addEventListener("install", (event) => {
@@ -41,5 +45,3 @@ self.addEventListener("fetch", (event) => {
       .catch(() => caches.match(event.request))
   );
 });
-
-
