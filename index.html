@@ -100,6 +100,22 @@
       font-size:12px; color:var(--muted); background:var(--panel2);
       border:1px solid #333; padding:6px 10px; border-radius:999px; white-space:nowrap;
     }
+
+    /* Calendar */
+    .calHeader{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+    .calTitle{font-weight:900}
+    .calGrid{display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-top:10px;}
+    .calDow{font-size:11px; color:var(--muted); text-align:center;}
+    .calDay{
+      background:#121213; border:1px solid #242424; border-radius:12px;
+      padding:10px 8px; min-height:54px; cursor:pointer;
+      display:flex; flex-direction:column; justify-content:space-between;
+    }
+    .calDay.muted{opacity:.35}
+    .calNum{font-weight:900; font-size:13px}
+    .calTag{font-size:11px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+    .dot{width:8px; height:8px; border-radius:99px; background:var(--accent); display:inline-block; margin-right:6px;}
+    .calTagRow{display:flex; align-items:center; gap:6px;}
   </style>
 </head>
 
@@ -128,14 +144,41 @@
           <input type="date" id="workoutDate" />
         </div>
         <div>
-          <div class="label">Typ dňa (podľa kalendára)</div>
-          <input id="dayPlan" placeholder="napr. Push / Pull / Legs / Rest" disabled />
+          <div class="label">Typ dňa (tvoj názov)</div>
+          <input id="dayType" placeholder="napr. Push / Pull / Legs / Rest" />
         </div>
       </div>
 
       <div class="label">Poznámka k tréningu (voliteľné)</div>
       <input id="workoutNote" placeholder="napr. cítil som sa dobre / bolesť ramena..." />
     </div>
+
+
+    <div class="card">
+      <div class="titleRow">
+        <strong>Šablóna tréningu</strong>
+        <span class="pill" id="pillTpl">—</span>
+      </div>
+
+      <div class="grid2">
+        <select id="tplSelectWorkout"></select>
+        <button class="miniBtn accent" onclick="applyTemplateToToday()">Použiť</button>
+      </div>
+
+      <div class="small" style="margin-top:10px;">
+        Šablóny sú <b>lokálne v zariadení</b>. Nastavíš ich v záložke Kalendár → Šablóny.
+      </div>
+
+      <div id="tplPlanWrap" class="hidden" style="margin-top:10px;">
+        <div class="label">Cviky dnešného tréningu (klikni pre rýchly výber)</div>
+        <div id="tplPlanList"></div>
+        <div class="grid2" style="margin-top:10px;">
+          <button class="btn secondary" onclick="clearTodayPlan()">Vymazať plán</button>
+          <button class="btn secondary" onclick="savePlanAsTemplate()">Uložiť dnešný plán ako šablónu</button>
+        </div>
+      </div>
+    </div>
+
 
     <div class="card">
       <div class="titleRow">
@@ -171,7 +214,7 @@
 
     <div class="card">
       <div class="titleRow">
-        <strong>Log</strong>
+        <strong>Série</strong>
         <div class="row" style="max-width:210px;">
           <button class="miniBtn" onclick="clearLog()">Vymazať</button>
         </div>
@@ -181,7 +224,7 @@
 
     <button class="btn danger" onclick="finishWorkout()">Uložiť tréning</button>
     <div class="small" style="margin-top:8px;">
-      Tréning sa uloží pod zvoleným dátumom a bude ho vidieť v Histórii + Týždennom sumári.
+      Tréning sa uloží pod zvoleným dátumom a bude ho vidieť v Histórii + Týždennom sumári + Kalendári.
     </div>
   </section>
 
@@ -189,39 +232,58 @@
   <section id="screen-calendar" class="hidden">
     <div class="card">
       <div class="titleRow">
-        <strong>Kalendár – plán dní</strong>
-        <span class="pill">Po–Ne</span>
+        <strong>Kalendár tréningov</strong>
+        <span class="pill" id="pillCalRange">—</span>
       </div>
-      <div class="small">Nastav si, čo ideš ktorý deň. Toto sa potom automaticky ukáže v tréningu podľa dátumu.</div>
+
+      <div class="calHeader">
+        <button class="miniBtn" onclick="shiftMonth(-1)">←</button>
+        <div class="calTitle" id="calTitle">—</div>
+        <button class="miniBtn" onclick="shiftMonth(1)">→</button>
+      </div>
+
+      <div class="calGrid" id="calDow"></div>
+      <div class="calGrid" id="calGrid"></div>
+
+      <div class="small" style="margin-top:10px;">
+        Klikni na deň: otvorí sa tréning pre ten dátum (ak existuje, vieš ho načítať z Histórie).
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="titleRow">
+        <strong>Šablóny</strong>
+        <span class="pill">lokálne</span>
+      </div>
+
+      <div class="grid2">
+        <select id="tplSelect"></select>
+        <button class="miniBtn accent" onclick="createTemplate()">Nová</button>
+      </div>
+
+      <div class="grid2" style="margin-top:10px;">
+        <button class="btn secondary" onclick="renameTemplate()">Premenovať</button>
+        <button class="btn secondary" onclick="deleteTemplate()">Zmazať</button>
+      </div>
 
       <div class="hr"></div>
 
+      <div class="label">Pridať cvik do šablóny</div>
       <div class="grid2">
-        <div><div class="label">Pondelok</div><input id="plan_mon" placeholder="napr. Push" /></div>
-        <div><div class="label">Utorok</div><input id="plan_tue" placeholder="napr. Pull" /></div>
-        <div><div class="label">Streda</div><input id="plan_wed" placeholder="napr. Legs" /></div>
-        <div><div class="label">Štvrtok</div><input id="plan_thu" placeholder="napr. Rest" /></div>
-        <div><div class="label">Piatok</div><input id="plan_fri" placeholder="napr. Upper" /></div>
-        <div><div class="label">Sobota</div><input id="plan_sat" placeholder="napr. Lower" /></div>
-        <div><div class="label">Nedeľa</div><input id="plan_sun" placeholder="napr. Rest" /></div>
-        <div>
-          <div class="label">Rýchla voľba</div>
-          <select id="quickPlan" onchange="applyQuickPlan()">
-            <option value="">—</option>
-            <option value="PPL">PPL (Po Push, Ut Pull, St Legs, Pi Push, So Pull, Ne Legs)</option>
-            <option value="UL">Upper/Lower (Po Upper, Ut Lower, Št Upper, Pi Lower)</option>
-            <option value="REST">Všetko Rest</option>
-          </select>
-        </div>
+        <select id="tplAddExercise"></select>
+        <button class="miniBtn accent" onclick="addExerciseToTemplate()">Pridať</button>
       </div>
 
-      <button class="btn" onclick="savePlan()">Uložiť kalendár</button>
+      <div class="label" style="margin-top:10px;">Cviky v šablóne</div>
+      <div id="tplItems" class="small">—</div>
     </div>
+
 
     <div class="card">
       <div class="titleRow">
         <strong>Pridať vlastný cvik</strong>
-        <span class="pill">do knižnice</span>
+        <span class="pill">lokálne / export</span>
       </div>
 
       <div class="label">Názov cviku</div>
@@ -230,20 +292,24 @@
       <div class="label">Poznámka (voliteľné)</div>
       <input id="newExNote" placeholder="napr. 30° lavička / kontrolovaný pohyb" />
 
-      <button class="btn secondary" onclick="addExercise()">Pridať cvik</button>
+      <button class="btn secondary" onclick="addExercise()">Pridať cvik (lokálne)</button>
+
       <div class="hr"></div>
 
       <div class="small">
-        Aby bol cvik globálne (PC aj iPhone), pridaj ho aj do <b>exercises.json</b> v GitHube.
+        Globálna synchronizácia (PC ↔ iPhone) funguje tak, že cvik pridáš do <b>exercises.json</b> v GitHube.
       </div>
 
-      <div class="label">Export (skopíruj a vlož do exercises.json)</div>
+      <div class="label">Export (skopíruj do exercises.json)</div>
       <textarea id="exExport" readonly placeholder="Tu sa zobrazí JSON po pridaní cviku..."></textarea>
 
-      <button class="btn secondary" onclick="copyExport()">Kopírovať export</button>
+      <div class="grid2">
+        <button class="btn secondary" onclick="copyExport()">Kopírovať export</button>
+        <button class="btn secondary" onclick="forceRefreshExercises()">Obnoviť cviky</button>
+      </div>
 
       <div class="small" style="margin-top:8px;">
-        Vlastné cviky zostanú uložené lokálne v zariadení.
+        Tip: po úprave exercises.json zvýš APP_VERSION. iPhone si potom sám natiahne nové cviky.
       </div>
     </div>
   </section>
@@ -285,7 +351,7 @@
       <div class="kpiGrid">
         <div class="kpi"><div class="v" id="kpiWorkouts">0</div><div class="k">tréningov</div></div>
         <div class="kpi"><div class="v" id="kpiSets">0</div><div class="k">sérií</div></div>
-        <div class="kpi"><div class="v" id="kpiVolume">0</div><div class="k">objem (kg×opak.)</div></div>
+        <div class="kpi"><div class="v" id="kpiReps">0</div><div class="k">opakovaní</div></div>
       </div>
 
       <div class="hr"></div>
@@ -296,42 +362,48 @@
 </main>
 
 <script>
-  // 🔄 AUTO RELOAD PO UPDATE SERVICE WORKERA
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.addEventListener("controllerchange", () => {
-      window.location.reload();
-    });
+  const APP_VERSION = "1.1.0";
+  const LAST_VER_KEY = "fitlog_last_version_v1";
+
+  // ✅ Ak je nová verzia appky, zmaž cache globálnych cvikov (aby sa natiahli nové)
+  const last = localStorage.getItem(LAST_VER_KEY);
+  if (last !== APP_VERSION) {
+    localStorage.removeItem("fitlog_global_exercises_v1");
+    localStorage.setItem(LAST_VER_KEY, APP_VERSION);
   }
 
-  // 📦 REGISTRÁCIA SERVICE WORKERA (FIX)
+  // ✅ PWA: registrácia + auto reload pri update
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js");
+    navigator.serviceWorker.register("./sw.js");
+    navigator.serviceWorker.addEventListener("controllerchange", () => window.location.reload());
   }
 
   const $ = (id) => document.getElementById(id);
-  const APP_VERSION = "1.0.3";
 
-  // 🔁 FALLBACK CVIKY (len keď by nešiel exercises.json)
+  // 🔁 FALLBACK CVIKY (len keď by nešiel exercises.json a nie je cache)
   const BASE_EXERCISES = [
-    { id: "squat", label: "Drep" },
+    { id: "drep", label: "Drep" },
     { id: "bench_press", label: "Bench press" },
-    { id: "deadlift", label: "Mŕtvy ťah" }
+    { id: "mrtvy_tah", label: "Mŕtvy ťah" }
   ];
 
   // --- Storage keys ---
-  const KEY_PLAN = "fitlog_plan_v1";
   const KEY_ACTIVE = "fitlog_active_v1";
   const KEY_HISTORY = "fitlog_history_v1";
   const KEY_WEEK_ANCHOR = "fitlog_week_anchor_v1";
+  const KEY_MONTH_ANCHOR = "fitlog_month_anchor_v1";
+
+  const KEY_TEMPLATES = "fitlog_templates_v1";
 
   // --- State ---
   let warmup = false;
   let useRPE = false;
-  let active = { date: todayISO(), note: "", sets: [] };
+  let active = { date: todayISO(), note: "", dayType: "", sets: [], planExercises: [] };
   let exercises = [];
-  let plan = loadPlan();
+  let templates = loadTemplates();
   let history = loadHistory();
   let weekAnchor = loadWeekAnchor();
+  let monthAnchor = loadMonthAnchor();
 
   // --- Init UI ---
   init();
@@ -343,20 +415,21 @@
     const savedDraft = localStorage.getItem(KEY_ACTIVE);
     if (savedDraft) {
       try { active = JSON.parse(savedDraft); } catch(e){}
-      $("workoutDate").value = active.date || todayISO();
-      $("workoutNote").value = active.note || "";
-      $("pillDate").innerText = formatDate(active.date || todayISO());
     }
 
-    setPlanInputs();
+    // sync UI from draft
+    $("workoutDate").value = active.date || todayISO();
+    $("workoutNote").value = active.note || "";
+    $("dayType").value = active.dayType || "";
+    $("pillDate").innerText = formatDate(active.date || todayISO());
 
     $("workoutDate").addEventListener("change", () => {
       const d = $("workoutDate").value || todayISO();
       active.date = d;
-      saveDraft();
       $("pillDate").innerText = formatDate(d);
-      updateDayPlanField();
+      saveDraft();
       renderLog();
+      renderCalendar();
     });
 
     $("workoutNote").addEventListener("input", () => {
@@ -364,11 +437,24 @@
       saveDraft();
     });
 
+    $("dayType").addEventListener("input", () => {
+      active.dayType = $("dayType").value || "";
+      saveDraft();
+      syncWorkoutTemplateSelect();
+      // kalendár je len ukazovateľ, ale keď uložíš tréning, prenesie sa tam;
+      // draft v kalendári nezobrazujeme (aby to bolo čisté)
+    });
+
     await populateExercises();
-    updateDayPlanField();
+    // šablóny (lokálne)
+    templates = loadTemplates();
+    renderTemplatesUI();
+    syncWorkoutTemplateSelect();
+    renderTodayPlan();
     renderLog();
     renderHistory();
     renderWeek();
+    renderCalendar();
   }
 
   // --- Tabs ---
@@ -380,8 +466,8 @@
     });
     if (name==="history") renderHistory();
     if (name==="week") renderWeek();
-    if (name==="workout") { updateDayPlanField(); renderLog(); }
-    if (name==="calendar") { setPlanInputs(); }
+    if (name==="calendar") { renderCalendar(); renderTemplatesUI(); }
+    if (name==="workout") { syncWorkoutTemplateSelect(); renderTodayPlan(); }
   }
 
   // --- Workout ---
@@ -389,7 +475,6 @@
     warmup = !warmup;
     $("wuBtn").classList.toggle("accent", warmup);
     $("wuBtn").textContent = warmup ? "Warm-up: ON" : "Warm-up: OFF";
-    saveDraft();
   }
 
   function toggleRPE(){
@@ -398,7 +483,6 @@
     $("rpeBtn").textContent = useRPE ? "RPE: ON" : "RPE: OFF";
     $("rpeBox").classList.toggle("hidden", !useRPE);
     if (!useRPE) $("rpe").value = "";
-    saveDraft();
   }
 
   function saveSet(){
@@ -419,7 +503,11 @@
     if (!Number.isFinite(reps) || reps <= 0) return alert("Zlé opakovania");
     if (rpe !== null && (!Number.isFinite(rpe) || rpe < 0 || rpe > 10)) return alert("RPE 0–10");
 
-    active.sets.push({ exId, exLabel, kg, reps, rpe, warmup, ts: new Date().toISOString() });
+    active\.sets\.push\(\{ exId, exLabel, kg, reps, rpe, warmup, ts: new Date\(\)\.toISOString\(\) \}\);
+
+    // ak ešte nemáš plán cvikov, buduj ho automaticky podľa uložených sérií
+    active.planExercises = Array.isArray(active.planExercises) ? active.planExercises : [];
+    if (!active.planExercises.includes(exId)) active.planExercises.push(exId);
 
     $("kg").value = "";
     $("reps").value = "";
@@ -446,7 +534,7 @@
       div.innerHTML += `
         <div class="setLine">
           <div class="setMain">
-            <strong>${s.exLabel}</strong>
+            <strong>${escapeHTML(s.exLabel)}</strong>
             <div class="setMeta">${s.kg} kg × ${s.reps}${rpeTxt}${isWU}</div>
           </div>
           <button class="miniBtn" onclick="deleteSet(${active.sets.length - 1 - idx})">Zmazať</button>
@@ -475,8 +563,8 @@
     const entry = {
       id: uid(),
       date: d,
-      dayType: getDayPlanForDate(d) || "",
-      note: active.note || "",
+      dayType: ($("dayType").value || active.dayType || "").trim(),
+      note: ($("workoutNote").value || active.note || "").trim(),
       sets: active.sets,
       savedAt: new Date().toISOString()
     };
@@ -485,8 +573,10 @@
     history.unshift(entry);
     saveHistory();
 
-    active = { date: d, note: "", sets: [] };
+    // reset draft (zostane dátum, aby si nemusel znovu prepínať)
+    active = { date: d, note: "", dayType: "", sets: [], planExercises: [] };
     $("workoutNote").value = "";
+    $("dayType").value = "";
     warmup = false;
     useRPE = false;
     $("wuBtn").classList.remove("accent");
@@ -500,6 +590,7 @@
     renderLog();
     renderHistory();
     renderWeek();
+    renderCalendar();
     alert("Tréning uložený.");
   }
 
@@ -518,8 +609,9 @@
     try { return saved ? JSON.parse(saved) : []; } catch { return []; }
   }
 
-  async function syncFromGitHubExercises() {
-    const url = `./exercises.json?v=${APP_VERSION}`;
+  async function syncFromGitHubExercises(force=false) {
+    // cache-bust vždy, aby iPhone nevracal starú verziu
+    const url = `./exercises.json?v=${Date.now()}&ver=${encodeURIComponent(APP_VERSION)}`;
     const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) throw new Error("Cannot load exercises.json");
     const data = await res.json();
@@ -548,24 +640,23 @@
   async function populateExercises(){
     const sel = $("exercise");
     sel.innerHTML = "";
-
-    try {
-      exercises = await loadExercises();
-    } catch (e) {
-      console.error(e);
-      exercises = BASE_EXERCISES;
-    }
-
-    if (!Array.isArray(exercises) || exercises.length === 0) {
-      exercises = BASE_EXERCISES;
-    }
-
+    exercises = await loadExercises();
     exercises.forEach(e => {
       const opt = document.createElement("option");
       opt.value = e.id;
       opt.textContent = e.label;
       sel.appendChild(opt);
     });
+  }
+
+  async function forceRefreshExercises(){
+    try {
+      localStorage.removeItem("fitlog_global_exercises_v1");
+      await populateExercises();
+      alert("Cviky obnovené.");
+    } catch(e) {
+      alert("Nepodarilo sa obnoviť cviky (skús znova).");
+    }
   }
 
   function addExercise(){
@@ -592,84 +683,400 @@
     if (!box || !box.value) return alert("Najprv pridaj cvik.");
     box.select();
     document.execCommand("copy");
-    alert("Export skopívaný.");
+    alert("Export skopírovaný.");
   }
 
-  // --- Calendar plan ---
-  function loadPlan(){
-    const saved = localStorage.getItem(KEY_PLAN);
-    if (saved) { try { return JSON.parse(saved) || {}; } catch(e){} }
-    return { mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:"" };
+  // --- Calendar (monthly indicator) ---
+  function loadMonthAnchor(){
+    const saved = localStorage.getItem(KEY_MONTH_ANCHOR);
+    if (saved) return saved;
+    const d = todayISO();
+    localStorage.setItem(KEY_MONTH_ANCHOR, d);
+    return d;
   }
 
-  function setPlanInputs(){
-    $("plan_mon").value = plan.mon || "";
-    $("plan_tue").value = plan.tue || "";
-    $("plan_wed").value = plan.wed || "";
-    $("plan_thu").value = plan.thu || "";
-    $("plan_fri").value = plan.fri || "";
-    $("plan_sat").value = plan.sat || "";
-    $("plan_sun").value = plan.sun || "";
+  function shiftMonth(delta){
+    const d = new Date(monthAnchor + "T00:00:00");
+    d.setMonth(d.getMonth() + delta);
+    // ukotvi na 1. deň mesiaca
+    d.setDate(1);
+    monthAnchor = toISO(d);
+    localStorage.setItem(KEY_MONTH_ANCHOR, monthAnchor);
+    renderCalendar();
   }
 
-  function savePlan(){
-    plan = {
-      mon: $("plan_mon").value || "",
-      tue: $("plan_tue").value || "",
-      wed: $("plan_wed").value || "",
-      thu: $("plan_thu").value || "",
-      fri: $("plan_fri").value || "",
-      sat: $("plan_sat").value || "",
-      sun: $("plan_sun").value || ""
+  function renderCalendar(){
+    history = loadHistory();
+
+    const anchor = new Date(monthAnchor + "T00:00:00");
+    const year = anchor.getFullYear();
+    const month = anchor.getMonth(); // 0-11
+
+    const monthName = anchor.toLocaleString("sk-SK", { month: "long" });
+    $("calTitle").innerText = `${monthName.charAt(0).toUpperCase() + monthName.slice(1)} ${year}`;
+
+    // range pill
+    const startISO = toISO(new Date(year, month, 1));
+    const endISO = toISO(new Date(year, month+1, 0));
+    $("pillCalRange").innerText = `${formatDate(startISO)} – ${formatDate(endISO)}`;
+
+    // header days
+    const dows = ["Po","Ut","St","Št","Pi","So","Ne"];
+    $("calDow").innerHTML = dows.map(x=>`<div class="calDow">${x}</div>`).join("");
+
+    // build grid
+    const first = new Date(year, month, 1);
+    const last = new Date(year, month+1, 0);
+
+    // convert JS Sunday=0..Saturday=6 to Monday=0..Sunday=6
+    const firstDow = (first.getDay() + 6) % 7;
+    const daysInMonth = last.getDate();
+
+    // previous month padding
+    const prevLast = new Date(year, month, 0);
+    const prevDays = prevLast.getDate();
+
+    const cells = [];
+
+    // map of workouts by date
+    const byDate = new Map(history.map(h => [h.date, h]));
+
+    for (let i=0; i<firstDow; i++) {
+      const dayNum = prevDays - (firstDow - 1 - i);
+      const d = new Date(year, month-1, dayNum);
+      const iso = toISO(d);
+      cells.push(renderCalCell(iso, dayNum, true, byDate.get(iso)));
+    }
+
+    for (let day=1; day<=daysInMonth; day++) {
+      const d = new Date(year, month, day);
+      const iso = toISO(d);
+      cells.push(renderCalCell(iso, day, false, byDate.get(iso)));
+    }
+
+    // next month padding to full weeks
+    const total = cells.length;
+    const rem = total % 7;
+    const add = rem === 0 ? 0 : 7 - rem;
+    for (let i=1; i<=add; i++) {
+      const d = new Date(year, month+1, i);
+      const iso = toISO(d);
+      cells.push(renderCalCell(iso, i, true, byDate.get(iso)));
+    }
+
+    $("calGrid").innerHTML = cells.join("");
+  }
+
+  function renderCalCell(iso, num, muted, workout){
+    const tag = workout?.dayType ? escapeHTML(workout.dayType) : (workout ? "Tréning" : "");
+    const dot = workout ? '<span class="dot"></span>' : '';
+    const tagHtml = tag ? `<div class="calTagRow">${dot}<div class="calTag">${tag}</div></div>` : `<div class="calTag">&nbsp;</div>`;
+    const cls = muted ? "calDay muted" : "calDay";
+    return `
+      <div class="${cls}" onclick="openDateFromCalendar('${iso}')">
+        <div class="calNum">${num}</div>
+        ${tagHtml}
+      </div>
+    `;
+  }
+
+  function openDateFromCalendar(dateISO){
+    // nastav dátum a prepni na tréning
+    active.date = dateISO;
+    $("workoutDate").value = dateISO;
+    $("pillDate").innerText = formatDate(dateISO);
+
+    // ak existuje uložený tréning, nechaj ho v Histórii (užívateľ si ho môže načítať)
+    // ale zlepšíme UX: ak existuje tréning, ponúkneme načítanie
+    const h = loadHistory().find(x => x.date === dateISO);
+    if (h) {
+      if (confirm(`Nájdený tréning pre ${formatDate(dateISO)}. Načítať ho do editácie?`)) {
+        active = { date: h.date, note: h.note || "", dayType: h.dayType || "", sets: [...(h.sets||[])], planExercises: [] };
+        $("workoutNote").value = active.note || "";
+        $("dayType").value = active.dayType || "";
+        saveDraft();
+      }
+    } else {
+      // čistý draft pre nový deň
+      active.note = "";
+      active.dayType = "";
+      active.sets = [];
+      $("workoutNote").value = "";
+      $("dayType").value = "";
+      saveDraft();
+    }
+
+    renderLog();
+    goTab("workout");
+  }
+
+  
+  // --- Templates (lokálne) ---
+  function loadTemplates(){
+    const saved = localStorage.getItem(KEY_TEMPLATES);
+    if (!saved) return [];
+    try {
+      const arr = JSON.parse(saved);
+      return Array.isArray(arr) ? arr : [];
+    } catch { return []; }
+  }
+  function saveTemplates(){
+    localStorage.setItem(KEY_TEMPLATES, JSON.stringify(templates));
+  }
+  function getExerciseLabelById(exId){
+    const e = (exercises || []).find(x => x.id === exId);
+    return e ? e.label : exId;
+  }
+
+  function ensureDefaultTemplate(){
+    // ak nemáš nič, vytvoríme jednu prázdnu, aby UI nebolo “mŕtve”
+    if (!templates || templates.length === 0){
+      templates = [{ id: uid(), name: "Moja šablóna", exIds: [] }];
+      saveTemplates();
+    }
+  }
+
+  function renderTemplatesUI(){
+    ensureDefaultTemplate();
+
+    const sel = $("tplSelect");
+    const addSel = $("tplAddExercise");
+    if (!sel || !addSel) return;
+
+    // select šablón
+    sel.innerHTML = "";
+    templates.forEach(t => {
+      const opt = document.createElement("option");
+      opt.value = t.id;
+      opt.textContent = t.name;
+      sel.appendChild(opt);
+    });
+
+    // obnov posledný výber
+    const last = localStorage.getItem("fitlog_tpl_selected_v1");
+    if (last && templates.some(t=>t.id===last)) sel.value = last;
+
+    sel.onchange = () => {
+      localStorage.setItem("fitlog_tpl_selected_v1", sel.value);
+      renderTemplateItems();
+      syncWorkoutTemplateSelect();
     };
-    localStorage.setItem(KEY_PLAN, JSON.stringify(plan));
-    updateDayPlanField();
-    alert("Kalendár uložený.");
+
+    // select cvikov na pridanie
+    addSel.innerHTML = "";
+    (exercises || []).forEach(e => {
+      const opt = document.createElement("option");
+      opt.value = e.id;
+      opt.textContent = e.label;
+      addSel.appendChild(opt);
+    });
+
+    renderTemplateItems();
   }
 
-  function applyQuickPlan(){
-    const v = $("quickPlan").value;
-    if (!v) return;
+  function currentTemplate(){
+    const sel = $("tplSelect");
+    const id = sel?.value;
+    return templates.find(t => t.id === id) || templates[0];
+  }
 
-    if (v==="PPL"){
-      $("plan_mon").value = "Push";
-      $("plan_tue").value = "Pull";
-      $("plan_wed").value = "Legs";
-      $("plan_thu").value = "Rest";
-      $("plan_fri").value = "Push";
-      $("plan_sat").value = "Pull";
-      $("plan_sun").value = "Legs";
+  function renderTemplateItems(){
+    const box = $("tplItems");
+    if (!box) return;
+
+    const t = currentTemplate();
+    if (!t) { box.textContent = "—"; return; }
+
+    if (!Array.isArray(t.exIds) || t.exIds.length === 0){
+      box.innerHTML = `<div class="small">Šablóna je prázdna. Pridaj cviky vyššie.</div>`;
+      return;
     }
-    if (v==="UL"){
-      $("plan_mon").value = "Upper";
-      $("plan_tue").value = "Lower";
-      $("plan_wed").value = "Rest";
-      $("plan_thu").value = "Upper";
-      $("plan_fri").value = "Lower";
-      $("plan_sat").value = "Rest";
-      $("plan_sun").value = "Rest";
-    }
-    if (v==="REST"){
-      ["mon","tue","wed","thu","fri","sat","sun"].forEach(k => $("plan_"+k).value = "Rest");
-    }
+
+    box.innerHTML = "";
+    t.exIds.forEach((exId, i) => {
+      const label = escapeHTML(getExerciseLabelById(exId));
+      box.innerHTML += `
+        <div class="setLine">
+          <div class="setMain">
+            <strong>${label}</strong>
+            <div class="setMeta">#${i+1}</div>
+          </div>
+          <div class="row" style="max-width:240px; gap:6px;">
+            <button class="miniBtn" onclick="moveTemplateItem(${i}, -1)">↑</button>
+            <button class="miniBtn" onclick="moveTemplateItem(${i}, 1)">↓</button>
+            <button class="miniBtn" onclick="removeTemplateItem(${i})">X</button>
+          </div>
+        </div>
+      `;
+    });
   }
 
-  function getDayPlanForDate(dateISO){
-    const d = new Date(dateISO + "T00:00:00");
-    const day = d.getDay();
-    if (day===1) return plan.mon || "";
-    if (day===2) return plan.tue || "";
-    if (day===3) return plan.wed || "";
-    if (day===4) return plan.thu || "";
-    if (day===5) return plan.fri || "";
-    if (day===6) return plan.sat || "";
-    return plan.sun || "";
+  function createTemplate(){
+    const name = prompt("Názov šablóny:", "Nová šablóna");
+    if (!name) return;
+    templates.unshift({ id: uid(), name: name.trim(), exIds: [] });
+    saveTemplates();
+    localStorage.setItem("fitlog_tpl_selected_v1", templates[0].id);
+    renderTemplatesUI();
+    syncWorkoutTemplateSelect();
+    alert("Šablóna vytvorená.");
   }
 
-  function updateDayPlanField(){
-    const d = $("workoutDate").value || todayISO();
-    $("dayPlan").value = getDayPlanForDate(d) || "";
+  function renameTemplate(){
+    const t = currentTemplate();
+    if (!t) return;
+    const name = prompt("Nový názov:", t.name);
+    if (!name) return;
+    t.name = name.trim();
+    saveTemplates();
+    renderTemplatesUI();
+    syncWorkoutTemplateSelect();
   }
+
+  function deleteTemplate(){
+    const t = currentTemplate();
+    if (!t) return;
+    if (!confirm(`Zmazať šablónu "${t.name}"?`)) return;
+    templates = templates.filter(x => x.id !== t.id);
+    saveTemplates();
+    localStorage.removeItem("fitlog_tpl_selected_v1");
+    renderTemplatesUI();
+    syncWorkoutTemplateSelect();
+  }
+
+  function addExerciseToTemplate(){
+    const t = currentTemplate();
+    const addSel = $("tplAddExercise");
+    if (!t || !addSel) return;
+    const exId = addSel.value;
+    t.exIds = Array.isArray(t.exIds) ? t.exIds : [];
+    t.exIds.push(exId);
+    saveTemplates();
+    renderTemplateItems();
+  }
+
+  function removeTemplateItem(i){
+    const t = currentTemplate();
+    if (!t) return;
+    t.exIds.splice(i, 1);
+    saveTemplates();
+    renderTemplateItems();
+  }
+
+  function moveTemplateItem(i, dir){
+    const t = currentTemplate();
+    if (!t) return;
+    const j = i + dir;
+    if (j < 0 || j >= t.exIds.length) return;
+    const tmp = t.exIds[i];
+    t.exIds[i] = t.exIds[j];
+    t.exIds[j] = tmp;
+    saveTemplates();
+    renderTemplateItems();
+  }
+
+  function syncWorkoutTemplateSelect(){
+    const sel = $("tplSelectWorkout");
+    const pill = $("pillTpl");
+    if (!sel || !pill) return;
+
+    ensureDefaultTemplate();
+
+    sel.innerHTML = "";
+    const opt0 = document.createElement("option");
+    opt0.value = "";
+    opt0.textContent = "— vyber šablónu —";
+    sel.appendChild(opt0);
+
+    templates.forEach(t => {
+      const opt = document.createElement("option");
+      opt.value = t.id;
+      opt.textContent = t.name;
+      sel.appendChild(opt);
+    });
+
+    // preferuj šablónu podľa dayType (ak sa zhoduje názov)
+    const dt = (active.dayType || $("dayType")?.value || "").trim().toLowerCase();
+    const match = templates.find(t => (t.name || "").trim().toLowerCase() === dt);
+    const last = localStorage.getItem("fitlog_tpl_selected_workout_v1");
+
+    if (match) sel.value = match.id;
+    else if (last && templates.some(t=>t.id===last)) sel.value = last;
+    else sel.value = "";
+
+    sel.onchange = () => {
+      localStorage.setItem("fitlog_tpl_selected_workout_v1", sel.value);
+      pill.textContent = sel.value ? (templates.find(t=>t.id===sel.value)?.name || "—") : "—";
+    };
+
+    pill.textContent = sel.value ? (templates.find(t=>t.id===sel.value)?.name || "—") : "—";
+  }
+
+  function applyTemplateToToday(){
+    const sel = $("tplSelectWorkout");
+    if (!sel || !sel.value) return alert("Najprv vyber šablónu.");
+    const t = templates.find(x => x.id === sel.value);
+    if (!t) return;
+
+    active.planExercises = (t.exIds || []).slice();
+    saveDraft();
+    renderTodayPlan();
+    alert("Šablóna použitá.");
+  }
+
+  function renderTodayPlan(){
+    const wrap = $("tplPlanWrap");
+    const list = $("tplPlanList");
+    if (!wrap || !list) return;
+
+    const arr = Array.isArray(active.planExercises) ? active.planExercises : [];
+    if (arr.length === 0){
+      wrap.classList.add("hidden");
+      list.innerHTML = "";
+      return;
+    }
+
+    wrap.classList.remove("hidden");
+    list.innerHTML = "";
+    arr.forEach(exId => {
+      const label = escapeHTML(getExerciseLabelById(exId));
+      list.innerHTML += `
+        <div class="listItem" onclick="quickPickExercise('${exId}')">
+          <div><strong>${label}</strong></div>
+          <span class="badge">Vybrať</span>
+        </div>
+      `;
+    });
+  }
+
+  function quickPickExercise(exId){
+    const sel = $("exercise");
+    if (!sel) return;
+    sel.value = exId;
+    // scroll k pridaniu série
+    sel.scrollIntoView({behavior:"smooth", block:"center"});
+  }
+
+  function clearTodayPlan(){
+    if (!confirm("Vymazať plán cvikov pre dnešný tréning?")) return;
+    active.planExercises = [];
+    saveDraft();
+    renderTodayPlan();
+  }
+
+  function savePlanAsTemplate(){
+    const arr = Array.isArray(active.planExercises) ? active.planExercises : [];
+    if (arr.length === 0) return alert("Najprv použi šablónu alebo si sprav plán.");
+    const name = prompt("Názov šablóny:", active.dayType || "Nová šablóna");
+    if (!name) return;
+    templates.unshift({ id: uid(), name: name.trim(), exIds: arr.slice() });
+    saveTemplates();
+    localStorage.setItem("fitlog_tpl_selected_v1", templates[0].id);
+    renderTemplatesUI();
+    syncWorkoutTemplateSelect();
+    alert("Šablóna uložená.");
+  }
+
 
   // --- History ---
   function uid(){
@@ -679,7 +1086,12 @@
   function loadHistory(){
     const saved = localStorage.getItem(KEY_HISTORY);
     if (!saved) return [];
-    try { return JSON.parse(saved) || []; } catch { return []; }
+    try {
+      const arr = JSON.parse(saved);
+      return Array.isArray(arr) ? arr : [];
+    } catch {
+      return [];
+    }
   }
 
   function saveHistory(){
@@ -700,7 +1112,7 @@
 
     history.slice(0, 60).forEach(h => {
       const sets = h.sets?.length || 0;
-      const dayType = h.dayType ? ` • ${h.dayType}` : "";
+      const dayType = h.dayType ? ` • ${escapeHTML(h.dayType)}` : "";
       list.innerHTML += `
         <div class="listItem" onclick="openHistoryDetail('${h.id}')">
           <div>
@@ -714,18 +1126,21 @@
   }
 
   function openHistoryDetail(id){
+    history = loadHistory();
     const h = history.find(x => x.id === id);
     if (!h) return;
 
     $("historyDetailCard").classList.remove("hidden");
-    $("historyDetailTitle").innerText = `${formatDate(h.date)} ${h.dayType ? "• " + h.dayType : ""}`;
+    $("historyDetailTitle").innerText = `${formatDate(h.date)}${h.dayType ? " • " + h.dayType : ""}`;
 
     const div = $("historyDetail");
     div.innerHTML = "";
 
     if (h.note) {
       div.innerHTML += `<div class="card" style="margin:0 0 10px 0;">
-        <strong>Poznámka:</strong><div class="small" style="margin-top:6px;">${escapeHTML(h.note)}</div></div>`;
+        <strong>Poznámka:</strong>
+        <div class="small" style="margin-top:6px;">${escapeHTML(h.note)}</div>
+      </div>`;
     }
 
     const grouped = {};
@@ -753,14 +1168,16 @@
   }
 
   function loadWorkoutFromHistory(dateISO){
+    history = loadHistory();
     const h = history.find(x => x.date === dateISO);
     if (!h) return;
 
-    active = { date: h.date, note: h.note || "", sets: [...(h.sets || [])] };
+    active = { date: h.date, note: h.note || "", dayType: h.dayType || "", sets: [...(h.sets || [])], planExercises: [] };
     $("workoutDate").value = active.date;
     $("workoutNote").value = active.note || "";
+    $("dayType").value = active.dayType || "";
+    active.planExercises = [...new Set((active.sets||[]).map(s=>s.exId).filter(Boolean))];
     saveDraft();
-    updateDayPlanField();
     renderLog();
     goTab("workout");
     alert("Tréning načítaný do editácie.");
@@ -789,13 +1206,14 @@
     $("pillWeekRange").innerText = `${formatDate(range.start)} – ${formatDate(range.end)}`;
 
     const inWeek = history.filter(h => h.date >= range.start && h.date <= range.end);
+
     const workouts = inWeek.length;
     const sets = inWeek.reduce((acc,h)=>acc + ((h.sets||[]).length), 0);
-    const volume = inWeek.reduce((acc,h)=>acc + (h.sets||[]).reduce((a,s)=>a + (Number(s.kg)||0)*(Number(s.reps)||0), 0), 0);
+    const reps = inWeek.reduce((acc,h)=>acc + (h.sets||[]).reduce((a,s)=>a + (Number(s.reps)||0), 0), 0);
 
     $("kpiWorkouts").innerText = String(workouts);
     $("kpiSets").innerText = String(sets);
-    $("kpiVolume").innerText = String(Math.round(volume));
+    $("kpiReps").innerText = String(reps);
 
     const list = $("weekList");
     if (inWeek.length === 0) {
@@ -806,12 +1224,12 @@
     list.innerHTML = inWeek
       .sort((a,b)=>a.date.localeCompare(b.date))
       .map(h => {
-        const v = (h.sets||[]).reduce((a,s)=>a + (Number(s.kg)||0)*(Number(s.reps)||0), 0);
-        const t = h.dayType ? ` • ${h.dayType}` : "";
+        const repsDay = (h.sets||[]).reduce((a,s)=>a + (Number(s.reps)||0), 0);
+        const t = h.dayType ? ` • ${escapeHTML(h.dayType)}` : "";
         return `<div class="listItem" onclick="goTab('history'); openHistoryDetail('${h.id}')">
           <div>
             <strong>${formatDate(h.date)}${t}</strong>
-            <div class="small">${(h.sets||[]).length} sérií • objem ${Math.round(v)}</div>
+            <div class="small">${(h.sets||[]).length} sérií • ${repsDay} opakovaní</div>
           </div>
           <span class="badge">Detail</span>
         </div>`;
@@ -850,8 +1268,5 @@
 </script>
 </body>
 </html>
-
-
-
 
 
