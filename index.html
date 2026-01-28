@@ -336,6 +336,18 @@
       <input id="newExNote" placeholder="napr. 30° lavička / kontrolovaný pohyb" />
 
       <button class="btn secondary" onclick="addExercise()">Pridať cvik</button>
+      <div class="hr"></div>
+
+<div class="small">
+  Aby bol cvik globálne (PC aj iPhone), pridaj ho aj do <b>exercises.json</b> v GitHube.
+</div>
+
+<div class="label">Export (skopíruj a vlož do exercises.json)</div>
+<textarea id="exExport" readonly
+  placeholder="Tu sa zobrazí JSON po pridaní cviku..."></textarea>
+
+<button class="btn secondary" onclick="copyExport()">Kopírovať export</button>
+
       <div class="small" style="margin-top:8px;">Vlastné cviky zostanú uložené v telefóne.</div>
     </div>
   </section>
@@ -915,4 +927,5 @@
 </script>
 </body>
 </html>
+
 
