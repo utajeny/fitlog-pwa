@@ -5,7 +5,6 @@
   { "id":"ohp", "label":"Military press — Overhead Press" },
   { "id":"row", "label":"Príťahy v predklone — Barbell Row" },
   { "id":"pulldown", "label":"Sťahovanie kladky — Lat Pulldown" },
-  [
   { "id": "drep", "label": "Drep" },
   { "id": "leg_press", "label": "Leg press" },
   { "id": "vypady", "label": "Výpady" },
@@ -35,6 +34,7 @@
   { "id": "deadlift", "label": "Mŕtvy ťah" },
   { "id": "close_grip_bench", "label": "Úzky bench press" }
 ]
+
 
 
 
