@@ -296,11 +296,23 @@
 </main>
 
 <script>
-  // PWA offline
-  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
-  const $ = (id) => document.getElementById(id);
+// 🔄 AUTO RELOAD PO UPDATE SERVICE WORKERA
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      window.location.reload();
+    });
+  }
 
-  // Fallback cviky (ak by exercises.json nešiel / offline prvýkrát)
+  // 📦 REGISTRÁCIA SERVICE WORKERA
+  if ("serviceWorker" in navigator") {
+    navigator.serviceWorker.register("sw.js");
+  }
+
+  const $ = (id) => document.getElementById(id);
+  const APP_VERSION = "1.0.3";
+
+
+  // 🔁 FALLBACK CVIKY (len keď by nešiel exercises.json)
   const BASE_EXERCISES = [
     { id: "squat", label: "Drep" },
     { id: "bench_press", label: "Bench press" },
@@ -508,7 +520,7 @@
   }
 
   async function syncFromGitHubExercises() {
-    const url = `./exercises.json?v=${Date.now()}`;
+    const url = `./exercises.json?v=${APP_VERSION}`;
     const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) throw new Error("Cannot load exercises.json");
     const data = await res.json();
@@ -829,6 +841,7 @@
 </script>
 </body>
 </html>
+
 
 
 
