@@ -5,4 +5,36 @@
   { "id": "ohp", "label": "Military press — Overhead Press" },
   { "id": "row", "label": "Príťahy v predklone — Barbell Row" },
   { "id": "pulldown", "label": "Sťahovanie kladky — Lat Pulldown" }
+  [
+  { "id": "Drep", "label": "Drep" },
+  { "id": "Leg press", "label": "Leg press" },
+  { "id": "Výpady", "label": "Výpady" },
+  { "id": "Zakopávanie", "label": "Zakopávanie" },
+  { "id": "Predkopávanie", "label": "Predkopávanie" },
+  { "id": "Lýtka", "label": "Lýtka" },
+
+  { "id": "Bench press", "label": "Bench press" },
+  { "id": "Incline bench jednoručky", "label": "Incline bench jednoručky" },
+  { "id": "Rozpažovanie / kladka", "label": "Rozpažovanie / kladka" },
+
+  { "id": "Upazovanie", "label": "Upazovanie" },
+  { "id": "Tlaky nad hlavu", "label": "Tlaky nad hlavu" },
+
+  { "id": "Triceps lano", "label": "Triceps lano" },
+  { "id": "Francúzsky tlak", "label": "Francúzsky tlak" },
+
+  { "id": "Zhyby / Lat pulldown", "label": "Zhyby / Lat pulldown" },
+  { "id": "Príťahy v predklone", "label": "Príťahy v predklone" },
+  { "id": "Káblový príťah k pásu", "label": "Káblový príťah k pásu" },
+  { "id": "Reverse fly", "label": "Reverse fly" },
+  { "id": "Pullover", "label": "Pullover" },
+
+  { "id": "Biceps veľká činka", "label": "Biceps veľká činka" },
+  { "id": "Hammer curl", "label": "Hammer curl" },
+
+  { "id": "Mŕtvy ťah", "label": "Mŕtvy ťah" },
+  { "id": "Úzky bench press", "label": "Úzky bench press" }
 ]
+
+]
+
