@@ -41,145 +41,64 @@
       border-bottom:1px solid #111;
     }
     main{padding:14px; max-width:1000px; margin:0 auto;}
-    .tabs{
-      display:flex; gap:8px; margin-bottom:12px;
-    }
+    .tabs{display:flex; gap:8px; margin-bottom:12px;}
     .tab{
-      flex:1;
-      padding:10px 12px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background:transparent;
-      color:var(--text);
-      font-weight:800;
+      flex:1; padding:10px 12px; border-radius:999px;
+      border:1px solid var(--line); background:transparent; color:var(--text); font-weight:800;
     }
-    .tab.active{
-      background:var(--panel2);
-      border-color:#3a3a3a;
-    }
+    .tab.active{background:var(--panel2); border-color:#3a3a3a;}
     .card{
-      background:var(--panel);
-      padding:12px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      margin-bottom:10px;
+      background:var(--panel); padding:12px; border-radius:14px;
+      border:1px solid var(--line); margin-bottom:10px;
     }
-    .titleRow{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      margin-bottom:10px;
-    }
+    .titleRow{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:10px;}
     .pill{
-      font-size:12px;
-      background:var(--panel2);
-      border:1px solid #333;
-      padding:6px 10px;
-      border-radius:999px;
-      color:var(--muted);
-      white-space:nowrap;
+      font-size:12px; background:var(--panel2); border:1px solid #333;
+      padding:6px 10px; border-radius:999px; color:var(--muted); white-space:nowrap;
     }
     .small{font-size:12px; color:var(--muted)}
     .grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
-    .grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;}
     input, select, textarea{
-      width:100%;
-      padding:12px 10px;
-      border-radius:12px;
-      border:none;
-      background:var(--input);
-      color:var(--text);
-      outline:none;
-      font-size:16px;
+      width:100%; padding:12px 10px; border-radius:12px; border:none;
+      background:var(--input); color:var(--text); outline:none; font-size:16px;
     }
     textarea{min-height:90px; resize:vertical}
     input::placeholder, textarea::placeholder{color:#9a9a9a}
     .label{color:var(--muted); font-size:12px; margin:6px 0}
     .btn{
-      width:100%;
-      padding:14px;
-      margin-top:10px;
-      background:var(--accent);
-      color:#000;
-      border:none;
-      border-radius:14px;
-      font-size:16px;
-      font-weight:900;
+      width:100%; padding:14px; margin-top:10px; background:var(--accent);
+      color:#000; border:none; border-radius:14px; font-size:16px; font-weight:900;
     }
-    .btn.secondary{
-      background:transparent;
-      color:var(--text);
-      border:1px solid #3a3a3a;
-      font-weight:800;
-    }
-    .btn.danger{
-      background:var(--danger);
-      color:#000;
-    }
+    .btn.secondary{background:transparent; color:var(--text); border:1px solid #3a3a3a; font-weight:800;}
+    .btn.danger{background:var(--danger); color:#000;}
     .row{display:flex; gap:10px; align-items:center;}
     .row > *{flex:1}
     .setLine{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      justify-content:space-between;
-      padding:10px;
-      border-radius:14px;
-      background:#121213;
-      border:1px solid #242424;
-      margin-top:8px;
+      display:flex; gap:10px; align-items:center; justify-content:space-between;
+      padding:10px; border-radius:14px; background:#121213; border:1px solid #242424; margin-top:8px;
     }
     .setMain{display:flex; flex-direction:column; gap:2px}
     .setMain strong{font-size:14px}
     .setMeta{color:var(--muted); font-size:12px}
     .miniBtn{
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid #3a3a3a;
-      background:transparent;
-      color:var(--text);
-      font-weight:800;
-      min-width:92px;
-      cursor:pointer;
+      padding:10px 12px; border-radius:12px; border:1px solid #3a3a3a;
+      background:transparent; color:var(--text); font-weight:800; min-width:92px; cursor:pointer;
     }
-    .miniBtn.accent{
-      border-color:transparent;
-      background:var(--accent);
-      color:#000;
-    }
+    .miniBtn.accent{border-color:transparent; background:var(--accent); color:#000;}
     .hidden{display:none !important;}
     .hr{height:1px; background:var(--line); margin:10px 0;}
     .kpiGrid{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;}
-    .kpi{
-      background:var(--panel2);
-      border:1px solid #2f2f31;
-      padding:12px;
-      border-radius:14px;
-    }
+    .kpi{background:var(--panel2); border:1px solid #2f2f31; padding:12px; border-radius:14px;}
     .kpi .v{font-size:18px; font-weight:900}
     .kpi .k{font-size:12px; color:var(--muted); margin-top:4px}
     .listItem{
-      padding:12px;
-      border-radius:14px;
-      background:#121213;
-      border:1px solid #242424;
-      cursor:pointer;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      margin-top:8px;
+      padding:12px; border-radius:14px; background:#121213; border:1px solid #242424;
+      cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:8px;
     }
     .listItem strong{font-size:14px}
     .badge{
-      font-size:12px;
-      color:var(--muted);
-      background:var(--panel2);
-      border:1px solid #333;
-      padding:6px 10px;
-      border-radius:999px;
-      white-space:nowrap;
+      font-size:12px; color:var(--muted); background:var(--panel2);
+      border:1px solid #333; padding:6px 10px; border-radius:999px; white-space:nowrap;
     }
   </style>
 </head>
@@ -278,37 +197,13 @@
       <div class="hr"></div>
 
       <div class="grid2">
-        <div>
-          <div class="label">Pondelok</div>
-          <input id="plan_mon" placeholder="napr. Push" />
-        </div>
-        <div>
-          <div class="label">Utorok</div>
-          <input id="plan_tue" placeholder="napr. Pull" />
-        </div>
-
-        <div>
-          <div class="label">Streda</div>
-          <input id="plan_wed" placeholder="napr. Legs" />
-        </div>
-        <div>
-          <div class="label">Štvrtok</div>
-          <input id="plan_thu" placeholder="napr. Rest" />
-        </div>
-
-        <div>
-          <div class="label">Piatok</div>
-          <input id="plan_fri" placeholder="napr. Upper" />
-        </div>
-        <div>
-          <div class="label">Sobota</div>
-          <input id="plan_sat" placeholder="napr. Lower" />
-        </div>
-
-        <div>
-          <div class="label">Nedeľa</div>
-          <input id="plan_sun" placeholder="napr. Rest" />
-        </div>
+        <div><div class="label">Pondelok</div><input id="plan_mon" placeholder="napr. Push" /></div>
+        <div><div class="label">Utorok</div><input id="plan_tue" placeholder="napr. Pull" /></div>
+        <div><div class="label">Streda</div><input id="plan_wed" placeholder="napr. Legs" /></div>
+        <div><div class="label">Štvrtok</div><input id="plan_thu" placeholder="napr. Rest" /></div>
+        <div><div class="label">Piatok</div><input id="plan_fri" placeholder="napr. Upper" /></div>
+        <div><div class="label">Sobota</div><input id="plan_sat" placeholder="napr. Lower" /></div>
+        <div><div class="label">Nedeľa</div><input id="plan_sun" placeholder="napr. Rest" /></div>
         <div>
           <div class="label">Rýchla voľba</div>
           <select id="quickPlan" onchange="applyQuickPlan()">
@@ -338,17 +233,18 @@
       <button class="btn secondary" onclick="addExercise()">Pridať cvik</button>
       <div class="hr"></div>
 
-<div class="small">
-  Aby bol cvik globálne (PC aj iPhone), pridaj ho aj do <b>exercises.json</b> v GitHube.
-</div>
+      <div class="small">
+        Aby bol cvik globálne (PC aj iPhone), pridaj ho aj do <b>exercises.json</b> v GitHube.
+      </div>
 
-<div class="label">Export (skopíruj a vlož do exercises.json)</div>
-<textarea id="exExport" readonly
-  placeholder="Tu sa zobrazí JSON po pridaní cviku..."></textarea>
+      <div class="label">Export (skopíruj a vlož do exercises.json)</div>
+      <textarea id="exExport" readonly placeholder="Tu sa zobrazí JSON po pridaní cviku..."></textarea>
 
-<button class="btn secondary" onclick="copyExport()">Kopírovať export</button>
+      <button class="btn secondary" onclick="copyExport()">Kopírovať export</button>
 
-      <div class="small" style="margin-top:8px;">Vlastné cviky zostanú uložené v telefóne.</div>
+      <div class="small" style="margin-top:8px;">
+        Vlastné cviky zostanú uložené lokálne v zariadení.
+      </div>
     </div>
   </section>
 
@@ -401,48 +297,17 @@
 
 <script>
   // PWA offline
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js");
-  }
-
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
   const $ = (id) => document.getElementById(id);
 
-  // --- Seed cvikov ---
-const BASE_EXERCISES = [
-  { id: "squat", label: "Drep", note: "" },
-  { id: "leg_press", label: "Leg press", note: "" },
-  { id: "vypady", label: "Výpady", note: "" },
-  { id: "zakopavanie", label: "Zakopávanie", note: "" },
-  { id: "predkopavanie", label: "Predkopávanie", note: "" },
-  { id: "lytka", label: "Lýtka", note: "" },
-
-  { id: "bench_press", label: "Bench press", note: "" },
-  { id: "incline_db", label: "Incline bench jednoručky", note: "" },
-  { id: "fly_cable", label: "Rozpažovanie / kladka", note: "" },
-
-  { id: "upazovanie", label: "Upažovanie", note: "" },
-  { id: "ohp", label: "Tlaky nad hlavu", note: "" },
-
-  { id: "triceps_rope", label: "Triceps lano", note: "" },
-  { id: "french_press", label: "Francúzsky tlak", note: "" },
-
-  { id: "pullups_lat", label: "Zhyby / Lat pulldown", note: "" },
-  { id: "row_bb", label: "Príťahy v predklone", note: "" },
-  { id: "cable_row", label: "Káblový príťah k pásu", note: "" },
-  { id: "reverse_fly", label: "Reverse fly", note: "" },
-  { id: "pullover", label: "Pullover", note: "" },
-
-  { id: "biceps_bb", label: "Biceps veľká činka", note: "" },
-  { id: "hammer_curl", label: "Hammer curl", note: "" },
-
-  { id: "deadlift", label: "Mŕtvy ťah", note: "" },
-  { id: "close_grip_bench", label: "Úzky bench press", note: "" },
-  { id: "hip_thrust", label: "Hip Thrust", note: "" }
-];
-
+  // Fallback cviky (ak by exercises.json nešiel / offline prvýkrát)
+  const BASE_EXERCISES = [
+    { id: "squat", label: "Drep" },
+    { id: "bench_press", label: "Bench press" },
+    { id: "deadlift", label: "Mŕtvy ťah" }
+  ];
 
   // --- Storage keys ---
-  const KEY_EX = "fitlog_exercises_v1";
   const KEY_PLAN = "fitlog_plan_v1";
   const KEY_ACTIVE = "fitlog_active_v1";
   const KEY_HISTORY = "fitlog_history_v1";
@@ -451,8 +316,8 @@ const BASE_EXERCISES = [
   // --- State ---
   let warmup = false;
   let useRPE = false;
-  let active = { date: todayISO(), note: "", sets: [] }; // active workout draft
-  let exercises = loadExercises();
+  let active = { date: todayISO(), note: "", sets: [] };
+  let exercises = [];              // dôležité: NEVOLÁME loadExercises() tu
   let plan = loadPlan();
   let history = loadHistory();
   let weekAnchor = loadWeekAnchor();
@@ -461,11 +326,9 @@ const BASE_EXERCISES = [
   init();
 
   async function init(){
-    // date input default
     $("workoutDate").value = active.date || todayISO();
     $("pillDate").innerText = formatDate(active.date);
 
-    // load draft if exists
     const savedDraft = localStorage.getItem(KEY_ACTIVE);
     if (savedDraft) {
       try { active = JSON.parse(savedDraft); } catch(e){}
@@ -474,13 +337,10 @@ const BASE_EXERCISES = [
       $("pillDate").innerText = formatDate(active.date || todayISO());
     }
 
-    // populate plan inputs
     setPlanInputs();
 
-    // hook date change
     $("workoutDate").addEventListener("change", () => {
       const d = $("workoutDate").value || todayISO();
-      // keď zmeníš dátum, prepni draft na nový dátum (ak chceš, neskôr spravíme “viac draftov”)
       active.date = d;
       saveDraft();
       $("pillDate").innerText = formatDate(d);
@@ -520,6 +380,7 @@ const BASE_EXERCISES = [
     $("wuBtn").textContent = warmup ? "Warm-up: ON" : "Warm-up: OFF";
     saveDraft();
   }
+
   function toggleRPE(){
     useRPE = !useRPE;
     $("rpeBtn").classList.toggle("accent", useRPE);
@@ -537,21 +398,17 @@ const BASE_EXERCISES = [
     const repsRaw = ($("reps").value || "").trim();
     const rpeRaw = ($("rpe").value || "").trim();
 
-    if (!kgRaw || !repsRaw) { alert("Zadaj kg aj opakovania."); return; }
+    if (!kgRaw || !repsRaw) return alert("Zadaj kg aj opakovania.");
 
     const kg = Number(kgRaw.replace(",", "."));
     const reps = Number(repsRaw);
     const rpe = (useRPE && rpeRaw) ? Number(rpeRaw.replace(",", ".")) : null;
 
-    if (!Number.isFinite(kg) || kg < 0) { alert("Zlé kg"); return; }
-    if (!Number.isFinite(reps) || reps <= 0) { alert("Zlé opakovania"); return; }
-    if (rpe !== null && (!Number.isFinite(rpe) || rpe < 0 || rpe > 10)) { alert("RPE 0–10"); return; }
+    if (!Number.isFinite(kg) || kg < 0) return alert("Zlé kg");
+    if (!Number.isFinite(reps) || reps <= 0) return alert("Zlé opakovania");
+    if (rpe !== null && (!Number.isFinite(rpe) || rpe < 0 || rpe > 10)) return alert("RPE 0–10");
 
-    active.sets.push({
-      exId, exLabel, kg, reps, rpe,
-      warmup,
-      ts: new Date().toISOString()
-    });
+    active.sets.push({ exId, exLabel, kg, reps, rpe, warmup, ts: new Date().toISOString() });
 
     $("kg").value = "";
     $("reps").value = "";
@@ -601,7 +458,7 @@ const BASE_EXERCISES = [
   }
 
   function finishWorkout(){
-    if (active.sets.length === 0) { alert("Najprv ulož aspoň jednu sériu."); return; }
+    if (active.sets.length === 0) return alert("Najprv ulož aspoň jednu sériu.");
 
     const d = active.date || $("workoutDate").value || todayISO();
     const entry = {
@@ -613,12 +470,10 @@ const BASE_EXERCISES = [
       savedAt: new Date().toISOString()
     };
 
-    // ak už existuje tréning pre ten dátum, prepíš ho (jednoduché a praktické)
     history = history.filter(h => h.date !== d);
     history.unshift(entry);
     saveHistory();
 
-    // reset draft
     active = { date: d, note: "", sets: [] };
     $("workoutNote").value = "";
     warmup = false;
@@ -629,6 +484,7 @@ const BASE_EXERCISES = [
     $("rpeBtn").textContent = "RPE: OFF";
     $("rpeBox").classList.add("hidden");
     $("rpe").value = "";
+
     saveDraft();
     renderLog();
     renderHistory();
@@ -640,23 +496,49 @@ const BASE_EXERCISES = [
     localStorage.setItem(KEY_ACTIVE, JSON.stringify(active));
   }
 
-  // --- Exercises ---
-  function loadExercises(){
-    const saved = localStorage.getItem(KEY_EX);
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length) return parsed;
-      } catch(e){}
-    }
-    localStorage.setItem(KEY_EX, JSON.stringify(BASE_EXERCISES));
-    return [...BASE_EXERCISES];
+  // --- Exercises (GLOBAL from exercises.json + LOCAL custom) ---
+  function loadExercisesLocal() {
+    const saved = localStorage.getItem("fitlog_custom_exercises_v1");
+    try { return saved ? JSON.parse(saved) : []; } catch { return []; }
   }
 
-  function populateExercises(){
-    exercises = loadExercises();
+  function loadGlobalCached() {
+    const saved = localStorage.getItem("fitlog_global_exercises_v1");
+    try { return saved ? JSON.parse(saved) : []; } catch { return []; }
+  }
+
+  async function syncFromGitHubExercises() {
+    const url = `./exercises.json?v=${Date.now()}`;
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) throw new Error("Cannot load exercises.json");
+    const data = await res.json();
+    if (!Array.isArray(data)) throw new Error("exercises.json must be an array");
+    localStorage.setItem("fitlog_global_exercises_v1", JSON.stringify(data));
+    return data;
+  }
+
+  async function loadExercises() {
+    let global = [];
+    try { global = await syncFromGitHubExercises(); }
+    catch { global = loadGlobalCached(); }
+
+    // fallback ak nemáme nič ani v cache
+    if (!Array.isArray(global) || global.length === 0) global = BASE_EXERCISES;
+
+    const custom = loadExercisesLocal();
+    const map = new Map();
+
+    [...global, ...custom].forEach(e => {
+      if (e && e.id && e.label) map.set(e.id, e);
+    });
+
+    return [...map.values()].sort((a,b) => String(a.label).localeCompare(String(b.label)));
+  }
+
+  async function populateExercises(){
     const sel = $("exercise");
     sel.innerHTML = "";
+    exercises = await loadExercises();
     exercises.forEach(e => {
       const opt = document.createElement("option");
       opt.value = e.id;
@@ -665,107 +547,38 @@ const BASE_EXERCISES = [
     });
   }
 
- function loadExercisesLocal() {
-  const saved = localStorage.getItem("fitlog_custom_exercises_v1");
-  try {
-    const arr = saved ? JSON.parse(saved) : [];
-    return Array.isArray(arr) ? arr : [];
-  } catch {
-    return [];
-  }
-}
+  function addExercise(){
+    const name = ($("newExName").value || "").trim();
+    if (!name) return alert("Zadaj názov cviku.");
 
-async function syncFromGitHubExercises() {
-  const url = `./exercises.json?v=${Date.now()}`;
-  const res = await fetch(url, { cache: "no-store" });
-  if (!res.ok) throw new Error("fetch failed");
-  const data = await res.json();
-  localStorage.setItem("fitlog_global_exercises_v1", JSON.stringify(data));
-  return data;
-}
+    const item = { id: "u_" + uid(), label: name };
+    const custom = Array.isArray(loadExercisesLocal()) ? loadExercisesLocal() : [];
+    custom.push(item);
+    localStorage.setItem("fitlog_custom_exercises_v1", JSON.stringify(custom));
 
-function loadGlobalCached() {
-  const saved = localStorage.getItem("fitlog_global_exercises_v1");
-  try {
-    const arr = saved ? JSON.parse(saved) : [];
-    return Array.isArray(arr) ? arr : [];
-  } catch {
-    return [];
-  }
-}
+    $("newExName").value = "";
+    $("newExNote").value = "";
 
-async function loadExercises() {
-  let global = [];
-  try {
-    global = await syncFromGitHubExercises();
-  } catch {
-    global = loadGlobalCached();
+    const box = $("exExport");
+    if (box) box.value = JSON.stringify(item);
+
+    populateExercises();
+    alert("Cvik pridaný lokálne. Skopíruj export do exercises.json na GitHube a commitni.");
   }
 
-  const custom = loadExercisesLocal();
-  const map = new Map();
-
-  [...global, ...custom].forEach(e => {
-    if (e && e.id && e.label) map.set(e.id, e);
-  });
-
-  return [...map.values()].sort((a, b) =>
-    String(a.label).localeCompare(String(b.label))
-  );
-}
-
-async function populateExercises(){
-  const sel = $("exercise");
-  sel.innerHTML = "";
-  const list = await loadExercises();
-  list.forEach(e => {
-    const opt = document.createElement("option");
-    opt.value = e.id;
-    opt.textContent = e.label;
-    sel.appendChild(opt);
-  });
-}
-
-function addExercise(){
-  const name = ($("newExName").value || "").trim();
-  if (!name) { alert("Zadaj názov cviku."); return; }
-
-  const item = { id: "u_" + uid(), label: name };
-  const custom = loadExercisesLocal();
-  custom.push(item);
-  localStorage.setItem("fitlog_custom_exercises_v1", JSON.stringify(custom));
-
-  $("newExName").value = "";
-
-  const box = $("exExport");
-  if (box) box.value = JSON.stringify(item);
-
-  populateExercises();
-  alert("Cvik pridaný lokálne. Skopíruj export do exercises.json na GitHube.");
-}
-
-function copyExport(){
-  const box = $("exExport");
-  if (!box || !box.value) {
-    alert("Najprv pridaj cvik.");
-    return;
+  function copyExport(){
+    const box = $("exExport");
+    if (!box || !box.value) return alert("Najprv pridaj cvik.");
+    box.select();
+    document.execCommand("copy");
+    alert("Export skopírovaný.");
   }
-  box.select();
-  document.execCommand("copy");
-  alert("Export skopírovaný.");
-}
-
 
   // --- Calendar plan ---
   function loadPlan(){
     const saved = localStorage.getItem(KEY_PLAN);
-    if (saved) {
-      try { return JSON.parse(saved) || {}; } catch(e){}
-    }
-    // default prázdny
-    return {
-      mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:""
-    };
+    if (saved) { try { return JSON.parse(saved) || {}; } catch(e){} }
+    return { mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:"" };
   }
 
   function setPlanInputs(){
@@ -821,7 +634,6 @@ function copyExport(){
   }
 
   function getDayPlanForDate(dateISO){
-    // 0=Sun...6=Sat
     const d = new Date(dateISO + "T00:00:00");
     const day = d.getDay();
     if (day===1) return plan.mon || "";
@@ -835,8 +647,7 @@ function copyExport(){
 
   function updateDayPlanField(){
     const d = $("workoutDate").value || todayISO();
-    const txt = getDayPlanForDate(d) || "";
-    $("dayPlan").value = txt;
+    $("dayPlan").value = getDayPlanForDate(d) || "";
   }
 
   // --- History ---
@@ -847,10 +658,7 @@ function copyExport(){
   function loadHistory(){
     const saved = localStorage.getItem(KEY_HISTORY);
     if (!saved) return [];
-    try {
-      const parsed = JSON.parse(saved);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch(e){ return []; }
+    try { return JSON.parse(saved) || []; } catch { return []; }
   }
 
   function saveHistory(){
@@ -862,7 +670,6 @@ function copyExport(){
     $("pillHistory").innerText = String(history.length);
     const list = $("historyList");
     list.innerHTML = "";
-
     $("historyDetailCard").classList.add("hidden");
 
     if (history.length === 0) {
@@ -895,9 +702,11 @@ function copyExport(){
     const div = $("historyDetail");
     div.innerHTML = "";
 
-    if (h.note) div.innerHTML += `<div class="card" style="margin:0 0 10px 0;"><strong>Poznámka:</strong><div class="small" style="margin-top:6px;">${escapeHTML(h.note)}</div></div>`;
+    if (h.note) {
+      div.innerHTML += `<div class="card" style="margin:0 0 10px 0;">
+        <strong>Poznámka:</strong><div class="small" style="margin-top:6px;">${escapeHTML(h.note)}</div></div>`;
+    }
 
-    // zoskup série podľa cviku
     const grouped = {};
     (h.sets || []).forEach(s => {
       const key = s.exLabel || s.exId;
@@ -907,11 +716,12 @@ function copyExport(){
 
     Object.keys(grouped).forEach(ex => {
       const arr = grouped[ex];
-      div.innerHTML += `<div class="card"><strong>${escapeHTML(ex)}</strong><div class="small" style="margin-top:8px;">${arr.map((s,i)=>{
-        const wu = s.warmup ? " (WU)" : "";
-        const rpe = (s.rpe!==null && s.rpe!==undefined) ? ` • RPE ${s.rpe}` : "";
-        return `#${i+1}: ${s.kg}×${s.reps}${wu}${rpe}`;
-      }).join("<br>")}</div></div>`;
+      div.innerHTML += `<div class="card"><strong>${escapeHTML(ex)}</strong>
+        <div class="small" style="margin-top:8px;">${arr.map((s,i)=>{
+          const wu = s.warmup ? " (WU)" : "";
+          const rpe = (s.rpe!==null && s.rpe!==undefined) ? ` • RPE ${s.rpe}` : "";
+          return `#${i+1}: ${s.kg}×${s.reps}${wu}${rpe}`;
+        }).join("<br>")}</div></div>`;
     });
 
     div.innerHTML += `<button class="btn secondary" onclick="loadWorkoutFromHistory('${h.date}')">Načítať do tréningu</button>`;
@@ -954,12 +764,10 @@ function copyExport(){
 
   function renderWeek(){
     history = loadHistory();
-
     const range = weekRangeFor(weekAnchor);
     $("pillWeekRange").innerText = `${formatDate(range.start)} – ${formatDate(range.end)}`;
 
     const inWeek = history.filter(h => h.date >= range.start && h.date <= range.end);
-
     const workouts = inWeek.length;
     const sets = inWeek.reduce((acc,h)=>acc + ((h.sets||[]).length), 0);
     const volume = inWeek.reduce((acc,h)=>acc + (h.sets||[]).reduce((a,s)=>a + (Number(s.kg)||0)*(Number(s.reps)||0), 0), 0);
@@ -974,8 +782,7 @@ function copyExport(){
       return;
     }
 
-    // jednoduchý výpis: deň -> typ -> sety/objem
-    const lines = inWeek
+    list.innerHTML = inWeek
       .sort((a,b)=>a.date.localeCompare(b.date))
       .map(h => {
         const v = (h.sets||[]).reduce((a,s)=>a + (Number(s.kg)||0)*(Number(s.reps)||0), 0);
@@ -988,14 +795,11 @@ function copyExport(){
           <span class="badge">Detail</span>
         </div>`;
       }).join("");
-
-    list.innerHTML = lines;
   }
 
   function weekRangeFor(anchorISO){
     const d = new Date(anchorISO + "T00:00:00");
-    // pondelok ako začiatok
-    const day = d.getDay(); // 0=Sun
+    const day = d.getDay();
     const diffToMon = (day === 0 ? -6 : 1 - day);
     const start = new Date(d);
     start.setDate(d.getDate() + diffToMon);
@@ -1025,8 +829,6 @@ function copyExport(){
 </script>
 </body>
 </html>
-
-
 
 
 
