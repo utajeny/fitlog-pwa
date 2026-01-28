@@ -32,8 +32,12 @@
   { "id": "hammer_curl", "label": "Hammer curl" },
 
   { "id": "deadlift", "label": "Mŕtvy ťah" },
-  { "id": "close_grip_bench", "label": "Úzky bench press" }
+  { "id": "close_grip_bench", "label": "Úzky bench press" },
+  {"id":"u_9511a056-34bd-44f0-bd3b-96d53a252100","label":"Tlaky na prsia s jednoručkami"},
+  {"id":"u_19b6a54c-1097-4e27-a13a-56452bd331e1","label":"Hiptrusty"},
+  {"id":"u_04ebdbee-ffa3-4cc8-9089-f70980de4c48","label":"Incline bench"}
 ]
+
 
 
 
