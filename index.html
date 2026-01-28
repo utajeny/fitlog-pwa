@@ -438,7 +438,7 @@
   // --- Init UI ---
   init();
 
-  function init(){
+  async function init(){
     // date input default
     $("workoutDate").value = active.date || todayISO();
     $("pillDate").innerText = formatDate(active.date);
@@ -471,7 +471,7 @@
       saveDraft();
     });
 
-    populateExercises();
+    await populateExercises();
     updateDayPlanField();
     renderLog();
     renderHistory();
@@ -643,20 +643,96 @@
     });
   }
 
-  function addExercise(){
-    const name = ($("newExName").value || "").trim();
-    const note = ($("newExNote").value || "").trim();
-    if (!name) { alert("Zadaj názov cviku."); return; }
-
-    const item = { id: "u_" + uid(), label: name, note };
-    exercises.push(item);
-    localStorage.setItem(KEY_EX, JSON.stringify(exercises));
-
-    $("newExName").value = "";
-    $("newExNote").value = "";
-    populateExercises();
-    alert("Cvik pridaný do knižnice.");
+ function loadExercisesLocal() {
+  const saved = localStorage.getItem("fitlog_custom_exercises_v1");
+  try {
+    const arr = saved ? JSON.parse(saved) : [];
+    return Array.isArray(arr) ? arr : [];
+  } catch {
+    return [];
   }
+}
+
+async function syncFromGitHubExercises() {
+  const url = `./exercises.json?v=${Date.now()}`;
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) throw new Error("fetch failed");
+  const data = await res.json();
+  localStorage.setItem("fitlog_global_exercises_v1", JSON.stringify(data));
+  return data;
+}
+
+function loadGlobalCached() {
+  const saved = localStorage.getItem("fitlog_global_exercises_v1");
+  try {
+    const arr = saved ? JSON.parse(saved) : [];
+    return Array.isArray(arr) ? arr : [];
+  } catch {
+    return [];
+  }
+}
+
+async function loadExercises() {
+  let global = [];
+  try {
+    global = await syncFromGitHubExercises();
+  } catch {
+    global = loadGlobalCached();
+  }
+
+  const custom = loadExercisesLocal();
+  const map = new Map();
+
+  [...global, ...custom].forEach(e => {
+    if (e && e.id && e.label) map.set(e.id, e);
+  });
+
+  return [...map.values()].sort((a, b) =>
+    String(a.label).localeCompare(String(b.label))
+  );
+}
+
+async function populateExercises(){
+  const sel = $("exercise");
+  sel.innerHTML = "";
+  const list = await loadExercises();
+  list.forEach(e => {
+    const opt = document.createElement("option");
+    opt.value = e.id;
+    opt.textContent = e.label;
+    sel.appendChild(opt);
+  });
+}
+
+function addExercise(){
+  const name = ($("newExName").value || "").trim();
+  if (!name) { alert("Zadaj názov cviku."); return; }
+
+  const item = { id: "u_" + uid(), label: name };
+  const custom = loadExercisesLocal();
+  custom.push(item);
+  localStorage.setItem("fitlog_custom_exercises_v1", JSON.stringify(custom));
+
+  $("newExName").value = "";
+
+  const box = $("exExport");
+  if (box) box.value = JSON.stringify(item);
+
+  populateExercises();
+  alert("Cvik pridaný lokálne. Skopíruj export do exercises.json na GitHube.");
+}
+
+function copyExport(){
+  const box = $("exExport");
+  if (!box || !box.value) {
+    alert("Najprv pridaj cvik.");
+    return;
+  }
+  box.select();
+  document.execCommand("copy");
+  alert("Export skopírovaný.");
+}
+
 
   // --- Calendar plan ---
   function loadPlan(){
@@ -927,5 +1003,6 @@
 </script>
 </body>
 </html>
+
 
 
