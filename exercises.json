@@ -1,34 +1,33 @@
 [
- { id: "squat", label: "Drep", note: "" },
-  { id: "leg_press", label: "Leg press", note: "" },
-  { id: "vypady", label: "Výpady", note: "" },
-  { id: "zakopavanie", label: "Zakopávanie", note: "" },
-  { id: "predkopavanie", label: "Predkopávanie", note: "" },
-  { id: "lytka", label: "Lýtka", note: "" },
+  { "id": "squat", "label": "Drep" },
+  { "id": "leg_press", "label": "Leg press" },
+  { "id": "lunges", "label": "Výpady" },
+  { "id": "leg_curl", "label": "Zakopávanie" },
+  { "id": "leg_extension", "label": "Predkopávanie" },
+  { "id": "calf_raise", "label": "Lýtka" },
 
-  { id: "bench_press", label: "Bench press", note: "" },
-  { id: "incline_db", label: "Incline bench jednoručky", note: "" },
-  { id: "fly_cable", label: "Rozpažovanie / kladka", note: "" },
+  { "id": "bench_press", "label": "Bench press" },
+  { "id": "incline_db_press", "label": "Incline bench jednoručky" },
+  { "id": "fly_cable", "label": "Rozpažovanie / kladka" },
 
-  { id: "upazovanie", label: "Upažovanie", note: "" },
-  { id: "ohp", label: "Tlaky nad hlavu", note: "" },
+  { "id": "lateral_raise", "label": "Upažovanie" },
+  { "id": "overhead_press", "label": "Tlaky nad hlavu" },
 
-  { id: "triceps_rope", label: "Triceps lano", note: "" },
-  { id: "french_press", label: "Francúzsky tlak", note: "" },
+  { "id": "triceps_rope", "label": "Triceps lano" },
+  { "id": "french_press", "label": "Francúzsky tlak" },
 
-  { id: "pullups_lat", label: "Zhyby / Lat pulldown", note: "" },
-  { id: "row_bb", label: "Príťahy v predklone", note: "" },
-  { id: "cable_row", label: "Káblový príťah k pásu", note: "" },
-  { id: "reverse_fly", label: "Reverse fly", note: "" },
-  { id: "pullover", label: "Pullover", note: "" },
+  { "id": "pullups_lat_pulldown", "label": "Zhyby / Lat pulldown" },
+  { "id": "barbell_row", "label": "Príťahy v predklone" },
+  { "id": "seated_cable_row", "label": "Káblový príťah k pásu" },
+  { "id": "reverse_fly", "label": "Reverse fly" },
+  { "id": "pullover", "label": "Pullover" },
 
-  { id: "biceps_bb", label: "Biceps veľká činka", note: "" },
-  { id: "hammer_curl", label: "Hammer curl", note: "" },
+  { "id": "barbell_curl", "label": "Biceps veľká činka" },
+  { "id": "hammer_curl", "label": "Hammer curl" },
 
-  { id: "deadlift", label: "Mŕtvy ťah", note: "" },
-  { id: "close_grip_bench", label: "Úzky bench press", note: "" },
-  { id: "hip_thrust", label: "Hip Thrust", note: "" }
-
+  { "id": "deadlift", "label": "Mŕtvy ťah" },
+  { "id": "close_grip_bench_press", "label": "Úzky bench press" },
+  { "id": "hip_thrust", "label": "Hip Thrust" }
 ]
 
 
