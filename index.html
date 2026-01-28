@@ -6,11 +6,16 @@
   <title>FitLog</title>
 
   <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="icon" href="icon-192.png" />
+
   <meta name="theme-color" content="#111111" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-title" content="FitLog" />
 
   <style>
+
     :root{
       --bg:#0f0f10;
       --panel:#171718;
@@ -101,6 +106,7 @@
       border:1px solid #333; padding:6px 10px; border-radius:999px; white-space:nowrap;
     }
 
+    
     /* Calendar */
     .calHeader{display:flex; align-items:center; justify-content:space-between; gap:10px;}
     .calTitle{font-weight:900}
@@ -108,14 +114,18 @@
     .calDow{font-size:11px; color:var(--muted); text-align:center;}
     .calDay{
       background:#121213; border:1px solid #242424; border-radius:12px;
-      padding:10px 8px; min-height:54px; cursor:pointer;
-      display:flex; flex-direction:column; justify-content:space-between;
+      padding:10px 8px 30px; min-height:54px; cursor:pointer;
+      position:relative; overflow:hidden; min-width:0;
     }
     .calDay.muted{opacity:.35}
     .calNum{font-weight:900; font-size:13px}
-    .calTag{font-size:11px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-    .dot{width:8px; height:8px; border-radius:99px; background:var(--accent); display:inline-block; margin-right:6px;}
-    .calTagRow{display:flex; align-items:center; gap:6px;}
+    .calTagRow{
+      position:absolute; left:8px; right:8px; bottom:8px;
+      display:flex; align-items:center; gap:6px; min-width:0;
+    }
+    .calTag{font-size:11px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0;}
+    .dot{width:8px; height:8px; border-radius:99px; background:var(--accent); display:inline-block; flex:0 0 auto;}
+
   </style>
 </head>
 
@@ -362,7 +372,7 @@
 </main>
 
 <script>
-  const APP_VERSION = "1.1.0";
+  const APP_VERSION = "1.1.1";
   const LAST_VER_KEY = "fitlog_last_version_v1";
 
   // ✅ Ak je nová verzia appky, zmaž cache globálnych cvikov (aby sa natiahli nové)
@@ -770,12 +780,12 @@
   function renderCalCell(iso, num, muted, workout){
     const tag = workout?.dayType ? escapeHTML(workout.dayType) : (workout ? "Tréning" : "");
     const dot = workout ? '<span class="dot"></span>' : '';
-    const tagHtml = tag ? `<div class="calTagRow">${dot}<div class="calTag">${tag}</div></div>` : `<div class="calTag">&nbsp;</div>`;
     const cls = muted ? "calDay muted" : "calDay";
+    const safeTag = tag ? tag : "&nbsp;";
     return `
       <div class="${cls}" onclick="openDateFromCalendar('${iso}')">
         <div class="calNum">${num}</div>
-        ${tagHtml}
+        <div class="calTagRow">${dot}<div class="calTag">${safeTag}</div></div>
       </div>
     `;
   }
